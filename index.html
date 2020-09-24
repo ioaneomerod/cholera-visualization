@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Cholera Visualization</title>
+  <script type="text/javascript" src="figure.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+<div id="table" style="width: 100%; height: 100%;" class="plotly-graph-div"></div>
+<script type="text/javascript">
+  Plotly.d3.tsv('./choleraDeaths.tsv', (data) => {return console.log(data)});
+  Plotly.d3.tsv('./naplesCholeraAgeSexData.tsv', (data) => {return console.log(data)});
+  Plotly.d3.csv('./choleraDeathLocations.csv', (data) => {return console.log(data)});
+  Plotly.d3.csv('./choleraPumpLocations.csv', (data) => {return console.log(data)});
+  Plotly.d3.csv('./UKcensus1851.csv', (data) => {return console.log(data)});
+</script>
+</body>
+</html>
