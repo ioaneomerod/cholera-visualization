@@ -11,14 +11,13 @@
 <script type="text/javascript">
   Plotly.d3.tsv('./choleraDeaths.tsv', (data) => {
     const headerValues = Object.keys(data[0]);
-    console.log(headerValues);
-    console.log(data);
     const cellValues= [];
     const dateValue = [];
     const attackPerValue = [];
     const deathPerValue = [];
     const totalAttackValue = [];
     const totalDeathValue = [];
+
     for(let i = 0; i < data.length; i++) {
       const obj = Object.values(data[i]);
       dateValue.push(obj[0]);
@@ -27,12 +26,13 @@
       totalAttackValue.push(obj[3]);
       totalDeathValue.push(obj[4]);
     }
+
     cellValues.push(dateValue);
     cellValues.push(attackPerValue);
     cellValues.push(deathPerValue);
     cellValues.push(totalAttackValue);
     cellValues.push(totalDeathValue);
-    console.log(cellValues);
+
     const choleraDeathTable = [{
       type: 'table',
       header: {
@@ -49,13 +49,16 @@
         font: { family: "Arial", size: 11, color: ["black"] }
       }
     }];
+
     const choleraDeathTableLayout = {
       title: "Cholera Attacks and Deaths by Date",
       paperColor: "#f5f5f5"
     };
+
     const choleraDeathTablePlot = document.getElementById('choleraDeathTableGraph');
     Plotly.plot(choleraDeathTablePlot, choleraDeathTable, choleraDeathTableLayout);
   });
+
   Plotly.d3.tsv('./naplesCholeraAgeSexData.tsv', (data) => {return data});
   Plotly.d3.csv('./choleraDeathLocations.csv', (data) => {return data});
   Plotly.d3.csv('./choleraPumpLocations.csv', (data) => {return data});
