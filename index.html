@@ -7,10 +7,12 @@
 <body>
 
 <div id="choleraDeathTablePlot"></div>
+<div id="choleraDeathLinePlot"></div>
 <div id="naplesCholeraAgeSexTablePlot"></div>
 <div id="naplesCholeraAgeSexBarPlot"></div>
 <div id="ukCensusTablePlot"></div>
 <div id="ukCensusBarPlot"></div>
+<div id="ukCensusPiePlot"></div>
 
 <script type="text/javascript">
   Plotly.d3.tsv('./choleraDeaths.tsv', (data) => {
@@ -56,11 +58,53 @@
 
     const choleraDeathTableLayout = {
       title: "Cholera Attacks and Deaths by Date",
-      paperColor: "#f5f5f5"
+      paperColor: "#F5F5F5"
     };
 
+    const attacksPerLine = {
+      x: dateValue,
+      y: attackPerValue,
+      type: 'scatter',
+      name: 'Attacks per Day'
+    };
+
+    const deathsPerLine = {
+      x: dateValue,
+      y: deathPerValue,
+      type: 'scatter',
+      name: 'Deaths per Day'
+    };
+
+    const totalAttacksLine = {
+      x: dateValue,
+      y: totalAttackValue,
+      type: 'scatter',
+      name: 'Total Attacks'
+    };
+
+    const totalDeathsLine = {
+      x: dateValue,
+      y: totalDeathValue,
+      type: 'scatter',
+      name: 'Total Deaths'
+    };
+
+    const choleraDeathLines = [attacksPerLine, deathsPerLine, totalAttacksLine, totalDeathsLine];
+
+    const choleraDeathLineLayout = {
+      title: "Cholera Attacks and Deaths by Date",
+      paperColor: "#F5F5F5",
+      plotColor: "#F5F5F5",
+      yaxis: {
+        title: 'Number of Attacks/Deaths'
+      }
+    };
+
+    const choleraDeathLinePlot = document.getElementById('choleraDeathLinePlot');
+    Plotly.plot(choleraDeathLinePlot, choleraDeathLines, choleraDeathTableLayout);
+
     const choleraDeathTablePlot = document.getElementById('choleraDeathTablePlot');
-    Plotly.plot(choleraDeathTablePlot, choleraDeathTable, choleraDeathTableLayout);
+    Plotly.plot(choleraDeathTablePlot, choleraDeathTable, choleraDeathLineLayout);
   });
 
   Plotly.d3.tsv('./naplesCholeraAgeSexData.tsv', (data) => {
@@ -147,6 +191,10 @@
     const ageValue = [];
     const maleValue = [];
     const femaleValue = [];
+    const sexTotalValues = [];
+    const sexValue = ['Female', 'Male'];
+    let maleValueTotal = 0;
+    let femaleValueTotal = 0;
 
     for(let i = 0; i < data.length; i++) {
       const obj = Object.values(data[i]);
@@ -155,9 +203,19 @@
       femaleValue.push(obj[2]);
     }
 
+    for(let i = 0; i < maleValue.length; i++) {
+      maleValueTotal += parseInt(maleValue[i], 10);
+    }
+
+    for(let i = 0; i < femaleValue.length; i++) {
+      femaleValueTotal += parseInt(femaleValue[i], 10);
+    }
+
     cellValues.push(ageValue);
     cellValues.push(maleValue);
     cellValues.push(femaleValue);
+    sexTotalValues.push(femaleValueTotal);
+    sexTotalValues.push(maleValueTotal);
 
     const ukCensusTable = [{
       type: 'table',
@@ -212,11 +270,88 @@
       }
     }
 
+    const ukCensusPie = [{
+      type: 'pie',
+      values: maleValue,
+      labels: ageValue,
+      name: 'Men',
+      domain: {
+        x: [0, 0.33]
+      },
+      hoverInfo: 'label+percent+name',
+      textPosition: 'outside',
+      marker: {
+        colors: ['rgb(0, 255, 0)', 'rgb(255, 0, 0)', 'rgb(0, 0, 255)', 'rgb(255, 255, 0)', 'rgb(255, 0, 255)',
+          'rgb(0, 255, 255)', 'rgb(100, 0, 0)', 'rgb(0, 0, 100)', 'rgb(0, 100, 0)']
+      }
+    },
+      {
+        type: 'pie',
+        values: femaleValue,
+        labels: ageValue,
+        name: 'Women',
+        domain: {
+          x: [0.34, 0.67]
+        },
+        hoverInfo: 'label+percent+name',
+        textPosition: 'outside',
+        marker: {
+          colors: ['rgb(0, 255, 0)', 'rgb(255, 0, 0)', 'rgb(0, 0, 255)', 'rgb(255, 255, 0)', 'rgb(255, 0, 255)',
+            'rgb(0, 255, 255)', 'rgb(100, 0, 0)', 'rgb(0, 0, 100)', 'rgb(0, 100, 0)']
+        }
+      },
+      {
+        type: 'pie',
+        values: sexTotalValues,
+        labels: sexValue,
+        name: 'Men vs Women',
+        domain: {
+          x: [0.67, 1]
+        },
+        hoverInfo: 'label+percent+name',
+        textPosition: 'outside',
+        marker: {
+          colors: ['rgb(0, 255, 0)', 'rgb(255, 0, 0)', 'rgb(0, 0, 255)', 'rgb(255, 255, 0)', 'rgb(255, 0, 255)',
+            'rgb(0, 255, 255)', 'rgb(100, 0, 0)', 'rgb(0, 0, 100)', 'rgb(0, 100, 0)']
+        }
+      }];
+
+    const ukCensusPieLayout = {
+      title: 'Age Breakdown for Each Sex',
+      titleFont: { size: 26 },
+      paperColor: "#f5f5f5",
+      plotColor: "#f5f5f5",
+      annotations: [
+        {
+          text: 'Men',
+          showArrow: false,
+          x: 0.15,
+          y: 1,
+          font: { size: 16 }
+        },{
+          text: 'Women',
+          showArrow: false,
+          x: 0.5,
+          y: 1,
+          font: { size: 16 }
+        },{
+          text: 'Men vs Women',
+          showArrow: false,
+          x: 0.82,
+          y: 1,
+          font: { size: 16 }
+        }
+      ]
+    };
+
     const ukCensusTablePlot = document.getElementById('ukCensusTablePlot');
     Plotly.plot(ukCensusTablePlot, ukCensusTable, ukCensusTableLayout);
 
     const ukCensusBarPlot = document.getElementById('ukCensusBarPlot');
     Plotly.plot(ukCensusBarPlot, ukCensusBar, ukCensusBarLayout);
+
+    const ukCensusPiePlot = document.getElementById('ukCensusPiePlot');
+    Plotly.plot(ukCensusPiePlot, ukCensusPie, ukCensusPieLayout);
   });
 
   Plotly.d3.csv('./choleraDeathLocations.csv', (data) => {return data});
