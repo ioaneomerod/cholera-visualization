@@ -8,7 +8,9 @@
 
 <div id="choleraDeathTablePlot"></div>
 <div id="naplesCholeraAgeSexTablePlot"></div>
+<div id="naplesCholeraAgeSexBarPlot"></div>
 <div id="ukCensusTablePlot"></div>
+<div id="ukCensusBarPlot"></div>
 
 <script type="text/javascript">
   Plotly.d3.tsv('./choleraDeaths.tsv', (data) => {
@@ -46,7 +48,7 @@
       },
       cells: {
         values: cellValues,
-        align: ["center", "right", "right", "right"],
+        align: ["center", "right", "right", "right", "right"],
         line: { color: "black", width: 1 },
         font: { family: "Arial", size: 11, color: ["black"] }
       }
@@ -90,19 +92,53 @@
       },
       cells: {
         values: cellValues,
-        align: ["center", "right", "right", "right"],
+        align: ["center", "right", "right"],
         line: { color: "black", width: 1 },
         font: { family: "Arial", size: 11, color: ["black"] }
       }
     }];
 
     const naplesCholeraAgeSexTableLayout = {
-      title: "Naples Cholera Deaths by Age and Sex",
+      title: "Naples Cholera Deaths Table by Age and Sex",
       paperColor: "#f5f5f5"
     };
 
+    const naplesCholeraAgeSexBar = [{
+      type: 'bar',
+      name: 'Male',
+      x: ageValue,
+      y: maleDeathValue,
+      marker: {
+        color: 'rgb(30, 180, 50)'
+      }
+    }, {
+      type: 'bar',
+      name: 'Female',
+      x: ageValue,
+      y: femaleDeathValue,
+      marker: {
+        color: 'rgb(80, 30, 150)'
+      }
+    }];
+
+    const naplesCholeraAgeSexBarLayout = {
+      title: 'Naples Cholera Deaths by Age and Sex',
+      barMode: 'grouped',
+      paperColor: "#f5f5f5",
+      plotColor: "#f5f5f5",
+      xAxis: {
+        title: 'Age Ranges',
+      },
+      yAxis: {
+        title: 'Male and Females'
+      }
+    }
+
     const naplesCholeraAgeSexTablePlot = document.getElementById('naplesCholeraAgeSexTablePlot');
     Plotly.plot(naplesCholeraAgeSexTablePlot, naplesCholeraAgeSexTable, naplesCholeraAgeSexTableLayout);
+
+    const naplesCholeraAgeSexBarPlot = document.getElementById('naplesCholeraAgeSexBarPlot');
+    Plotly.plot(naplesCholeraAgeSexBarPlot, naplesCholeraAgeSexBar, naplesCholeraAgeSexBarLayout);
   });
 
   Plotly.d3.csv('./UKcensus1851.csv', (data) => {
@@ -134,19 +170,53 @@
       },
       cells: {
         values: cellValues,
-        align: ["center", "right", "right", "right"],
+        align: ["center", "right", "right"],
         line: { color: "black", width: 1 },
         font: { family: "Arial", size: 11, color: ["black"] }
       }
     }];
 
     const ukCensusTableLayout = {
-      title: "UK Census by Age and Sex",
+      title: "UK Census Table by Age and Sex",
       paperColor: "#f5f5f5"
     };
 
+    const ukCensusBar = [{
+      type: 'bar',
+      name: 'Male',
+      x: ageValue,
+      y: maleValue,
+      marker: {
+        color: 'rgb(30, 30, 180)'
+      }
+    }, {
+      type: 'bar',
+      name: 'Female',
+      x: ageValue,
+      y: femaleValue,
+      marker: {
+        color: 'rgb(210, 80, 30)'
+      }
+    }];
+
+    const ukCensusBarLayout = {
+      title: 'UK Census Bar Chart by Age and Sex',
+      barMode: 'grouped',
+      paperColor: "#f5f5f5",
+      plotColor: "#f5f5f5",
+      xAxis: {
+        title: 'Age Ranges',
+      },
+      yAxis: {
+        title: 'Male and Females'
+      }
+    }
+
     const ukCensusTablePlot = document.getElementById('ukCensusTablePlot');
     Plotly.plot(ukCensusTablePlot, ukCensusTable, ukCensusTableLayout);
+
+    const ukCensusBarPlot = document.getElementById('ukCensusBarPlot');
+    Plotly.plot(ukCensusBarPlot, ukCensusBar, ukCensusBarLayout);
   });
 
   Plotly.d3.csv('./choleraDeathLocations.csv', (data) => {return data});
