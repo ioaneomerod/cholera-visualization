@@ -9,11 +9,12 @@
 </head>
 <body>
 
-<div class="ui four item menu">
+<div class="ui five item menu">
   <a class="item" href="index.html">About</a>
   <a class="item" href="choleraDeaths.html">Cholera Deaths in London</a>
-  <a class="item" href="ukCensus.html">1851 UK Census</a>
+  <a class="active item" href="ukCensus.html">1851 UK Census</a>
   <a class="item" href="naplesCholeraAgeSex.html">Cholera Deaths in Naples</a>
+  <a class="item" href="deathAndPumpLocations.html">Cholera Deaths and Pump Locations in London</a>
 </div>
 
 <h1 class="ui center aligned header">1854 London Cholera Outbreak</h1>
@@ -60,22 +61,23 @@
       type: 'table',
       header: {
         values: headerValues,
-        align: "center",
+        align: 'center',
         line: { width: 1, color: 'black' },
-        fill: { color: "grey" },
-        font: { family: "Arial", size: 12, color: "white" }
+        fill: { color: 'black' },
+        font: { family: 'Arial', size: 12, color: 'white' }
       },
       cells: {
         values: cellValues,
-        align: ["center", "right", "right"],
-        line: { color: "black", width: 1 },
-        font: { family: "Arial", size: 11, color: ["black"] }
+        align: ['center', 'right', 'right'],
+        line: { color: 'black', width: 1 },
+        fill: { color: 'grey' },
+        font: { family: 'Arial', size: 11, color: ['white'] }
       }
     }];
 
     const ukCensusTableLayout = {
-      title: "UK Census Table by Age and Sex",
-      paperColor: "#f5f5f5"
+      title: 'UK Census Table by Age and Sex',
+      paperColor: '#f5f5f5'
     };
 
     const ukCensusBar = [{
@@ -84,7 +86,7 @@
       x: ageValue,
       y: maleValue,
       marker: {
-        color: 'rgb(30, 30, 180)'
+        color: '#3769ff'
       }
     }, {
       type: 'bar',
@@ -92,20 +94,20 @@
       x: ageValue,
       y: femaleValue,
       marker: {
-        color: 'rgb(210, 80, 30)'
+        color: '#ff8e37'
       }
     }];
 
     const ukCensusBarLayout = {
       title: 'UK Census Bar Chart by Age and Sex',
       barMode: 'grouped',
-      paperColor: "#f5f5f5",
-      plotColor: "#f5f5f5",
-      xAxis: {
+      paperColor: '#f5f5f5',
+      plotColor: '#f5f5f5',
+      xaxis: {
         title: 'Age Ranges',
       },
-      yAxis: {
-        title: 'Male and Females'
+      yaxis: {
+        title: 'Population'
       }
     }
 
@@ -120,8 +122,7 @@
       hoverInfo: 'label+percent+name',
       textPosition: 'outside',
       marker: {
-        colors: ['rgb(0, 255, 0)', 'rgb(255, 0, 0)', 'rgb(0, 0, 255)', 'rgb(255, 255, 0)', 'rgb(255, 0, 255)',
-          'rgb(0, 255, 255)', 'rgb(100, 0, 0)', 'rgb(0, 0, 100)', 'rgb(0, 100, 0)']
+        colors: ['']
       }
     },
       {
@@ -152,26 +153,23 @@
         hoverInfo: 'label+percent+name',
         textPosition: 'outside',
         marker: {
-          colors: ['rgb(0, 255, 0)', 'rgb(255, 0, 0)', 'rgb(0, 0, 255)', 'rgb(255, 255, 0)', 'rgb(255, 0, 255)',
-            'rgb(0, 255, 255)', 'rgb(100, 0, 0)', 'rgb(0, 0, 100)', 'rgb(0, 100, 0)']
+          colors: ['#ff8e37', '#3769ff']
         }
       }];
 
     const ukCensusPieLayout = {
       title: 'Age Breakdown for Each Sex',
       titleFont: { size: 26 },
-      paperColor: "#f5f5f5",
-      plotColor: "#f5f5f5",
+      paperColor: '#f5f5f5',
+      plotColor: '#f5f5f5',
       annotations: [
         {
           text: 'Men',
-          showArrow: false,
           x: 0.30,
           y: 1,
           font: { size: 16 }
         },{
           text: 'Women',
-          showArrow: false,
           x: 0.65,
           y: 1,
           font: { size: 16 }
@@ -182,12 +180,11 @@
     const ukCensusPieTotalLayout = {
       title: 'Total Census Breakdown by Sex',
       titleFont: { size: 26 },
-      paperColor: "#f5f5f5",
-      plotColor: "#f5f5f5",
+      paperColor: '#f5f5f5',
+      plotColor: '#f5f5f5',
       annotations: [
         {
           text: 'Men vs Women',
-          showArrow: true,
           x: 0.5,
           y: 1,
           font: { size: 16 }

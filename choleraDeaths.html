@@ -9,11 +9,12 @@
 </head>
 <body>
 
-<div class="ui four item menu">
+<div class="ui five item menu">
   <a class="item" href="index.html">About</a>
-  <a class="item" href="choleraDeaths.html">Cholera Deaths in London</a>
+  <a class="active item" href="choleraDeaths.html">Cholera Deaths in London</a>
   <a class="item" href="ukCensus.html">1851 UK Census</a>
   <a class="item" href="naplesCholeraAgeSex.html">Cholera Deaths in Naples</a>
+  <a class="item" href="deathAndPumpLocations.html">Cholera Deaths and Pump Locations in London</a>
 </div>
 
 <h1 class="ui center aligned header">1854 London Cholera Outbreak</h1>
@@ -50,58 +51,78 @@
       type: 'table',
       header: {
         values: headerValues,
-        align: "center",
+        align: 'center',
         line: { width: 1, color: 'black' },
-        fill: { color: "grey" },
-        font: { family: "Arial", size: 12, color: "white" }
+        fill: { color: 'black' },
+        font: { family: 'Arial', size: 12, color: 'white' }
       },
       cells: {
         values: cellValues,
-        align: ["center", "right", "right", "right", "right"],
-        line: { color: "black", width: 1 },
-        font: { family: "Arial", size: 11, color: ["black"] }
+        align: ['center', 'right', 'right', 'right', 'right'],
+        line: { color: 'black', width: 1 },
+        fill: { color: 'grey' },
+        font: { family: 'Arial', size: 11, color: ['white'] }
       }
     }];
 
     const choleraDeathTableLayout = {
-      title: "Cholera Attacks and Deaths by Date",
-      paperColor: "#F5F5F5"
+      title: 'Cholera Attacks and Deaths by Date',
+      paperColor: '#F5F5F5'
     };
 
     const attacksPerLine = {
       x: dateValue,
       y: attackPerValue,
       type: 'scatter',
-      name: 'Attacks per Day'
+      name: 'Attacks per Day',
+      mode: 'lines',
+      line: {
+        color: 'orange'
+      }
     };
 
     const deathsPerLine = {
       x: dateValue,
       y: deathPerValue,
       type: 'scatter',
-      name: 'Deaths per Day'
+      name: 'Deaths per Day',
+      mode: 'lines',
+      line: {
+        color: 'blue'
+      }
     };
 
     const totalAttacksLine = {
       x: dateValue,
       y: totalAttackValue,
       type: 'scatter',
-      name: 'Total Attacks'
+      name: 'Total Attacks',
+      mode: 'lines',
+      line: {
+        color: 'red'
+      }
     };
 
     const totalDeathsLine = {
       x: dateValue,
       y: totalDeathValue,
       type: 'scatter',
-      name: 'Total Deaths'
+      name: 'Total Deaths',
+      mode: 'lines',
+      line: {
+        color: 'green'
+      }
     };
 
     const choleraDeathLines = [attacksPerLine, deathsPerLine, totalAttacksLine, totalDeathsLine];
 
     const choleraDeathLineLayout = {
-      title: "Cholera Attacks and Deaths by Date",
-      paperColor: "#F5F5F5",
-      plotColor: "#F5F5F5",
+      title: 'Cholera Attacks and Deaths by Date',
+      paperColor: '#F5F5F5',
+      plotColor: '#F5F5F5',
+      xaxis: {
+        title: 'Date'
+      },
       yaxis: {
         title: 'Number of Attacks/Deaths'
       }
