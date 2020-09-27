@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Cholera Deaths Visualizations</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+</head>
+<body>
+
+<div class="ui four item menu">
+  <a class="item" href="index.html">About</a>
+  <a class="item" href="choleraDeaths.html">Cholera Deaths in London</a>
+  <a class="item" href="ukCensus.html">1851 UK Census</a>
+  <a class="item" href="naplesCholeraAgeSex.html">Cholera Deaths in Naples</a>
+</div>
+
+<h1 class="ui center aligned header">1854 London Cholera Outbreak</h1>
+
+<div id="choleraDeathTablePlot"></div>
+<div id="choleraDeathLinePlot"></div>
+
+<script type="text/javascript">
+  Plotly.d3.tsv('./choleraDeaths.tsv', (data) => {
+    const headerValues = Object.keys(data[0]);
+    const cellValues= [];
+    const dateValue = [];
+    const attackPerValue = [];
+    const deathPerValue = [];
+    const totalAttackValue = [];
+    const totalDeathValue = [];
+
+    for(let i = 0; i < data.length; i++) {
+      const obj = Object.values(data[i]);
+      dateValue.push(obj[0]);
+      attackPerValue.push(obj[1]);
+      deathPerValue.push(obj[2]);
+      totalAttackValue.push(obj[3]);
+      totalDeathValue.push(obj[4]);
+    }
+
+    cellValues.push(dateValue);
+    cellValues.push(attackPerValue);
+    cellValues.push(deathPerValue);
+    cellValues.push(totalAttackValue);
+    cellValues.push(totalDeathValue);
+
+    const choleraDeathTable = [{
+      type: 'table',
+      header: {
+        values: headerValues,
+        align: "center",
+        line: { width: 1, color: 'black' },
+        fill: { color: "grey" },
+        font: { family: "Arial", size: 12, color: "white" }
+      },
+      cells: {
+        values: cellValues,
+        align: ["center", "right", "right", "right", "right"],
+        line: { color: "black", width: 1 },
+        font: { family: "Arial", size: 11, color: ["black"] }
+      }
+    }];
+
+    const choleraDeathTableLayout = {
+      title: "Cholera Attacks and Deaths by Date",
+      paperColor: "#F5F5F5"
+    };
+
+    const attacksPerLine = {
+      x: dateValue,
+      y: attackPerValue,
+      type: 'scatter',
+      name: 'Attacks per Day'
+    };
+
+    const deathsPerLine = {
+      x: dateValue,
+      y: deathPerValue,
+      type: 'scatter',
+      name: 'Deaths per Day'
+    };
+
+    const totalAttacksLine = {
+      x: dateValue,
+      y: totalAttackValue,
+      type: 'scatter',
+      name: 'Total Attacks'
+    };
+
+    const totalDeathsLine = {
+      x: dateValue,
+      y: totalDeathValue,
+      type: 'scatter',
+      name: 'Total Deaths'
+    };
+
+    const choleraDeathLines = [attacksPerLine, deathsPerLine, totalAttacksLine, totalDeathsLine];
+
+    const choleraDeathLineLayout = {
+      title: "Cholera Attacks and Deaths by Date",
+      paperColor: "#F5F5F5",
+      plotColor: "#F5F5F5",
+      yaxis: {
+        title: 'Number of Attacks/Deaths'
+      }
+    };
+
+    const choleraDeathLinePlot = document.getElementById('choleraDeathLinePlot');
+    Plotly.plot(choleraDeathLinePlot, choleraDeathLines, choleraDeathTableLayout);
+
+    const choleraDeathTablePlot = document.getElementById('choleraDeathTablePlot');
+    Plotly.plot(choleraDeathTablePlot, choleraDeathTable, choleraDeathLineLayout);
+  });
+</script>
+
+</body>
+</html>

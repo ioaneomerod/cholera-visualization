@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>UK Census Visualizations</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+</head>
+<body>
+
+<div class="ui four item menu">
+  <a class="item" href="index.html">About</a>
+  <a class="item" href="choleraDeaths.html">Cholera Deaths in London</a>
+  <a class="item" href="ukCensus.html">1851 UK Census</a>
+  <a class="item" href="naplesCholeraAgeSex.html">Cholera Deaths in Naples</a>
+</div>
+
+<h1 class="ui center aligned header">1854 London Cholera Outbreak</h1>
+
+<div id="ukCensusTablePlot"></div>
+<div id="ukCensusBarPlot"></div>
+<div id="ukCensusPiePlot"></div>
+<div id="ukCensusPieTotalPlot"></div>
+
+<script type="text/javascript">
+  Plotly.d3.csv('./UKcensus1851.csv', (data) => {
+    const headerValues = Object.keys(data[0]);
+    const cellValues= [];
+    const ageValue = [];
+    const maleValue = [];
+    const femaleValue = [];
+    const sexTotalValues = [];
+    const sexValue = ['Female', 'Male'];
+    let maleValueTotal = 0;
+    let femaleValueTotal = 0;
+
+    for(let i = 0; i < data.length; i++) {
+      const obj = Object.values(data[i]);
+      ageValue.push(obj[0]);
+      maleValue.push(obj[1]);
+      femaleValue.push(obj[2]);
+    }
+
+    for(let i = 0; i < maleValue.length; i++) {
+      maleValueTotal += parseInt(maleValue[i], 10);
+    }
+
+    for(let i = 0; i < femaleValue.length; i++) {
+      femaleValueTotal += parseInt(femaleValue[i], 10);
+    }
+
+    cellValues.push(ageValue);
+    cellValues.push(maleValue);
+    cellValues.push(femaleValue);
+    sexTotalValues.push(maleValueTotal);
+    sexTotalValues.push(femaleValueTotal);
+
+    const ukCensusTable = [{
+      type: 'table',
+      header: {
+        values: headerValues,
+        align: "center",
+        line: { width: 1, color: 'black' },
+        fill: { color: "grey" },
+        font: { family: "Arial", size: 12, color: "white" }
+      },
+      cells: {
+        values: cellValues,
+        align: ["center", "right", "right"],
+        line: { color: "black", width: 1 },
+        font: { family: "Arial", size: 11, color: ["black"] }
+      }
+    }];
+
+    const ukCensusTableLayout = {
+      title: "UK Census Table by Age and Sex",
+      paperColor: "#f5f5f5"
+    };
+
+    const ukCensusBar = [{
+      type: 'bar',
+      name: 'Male',
+      x: ageValue,
+      y: maleValue,
+      marker: {
+        color: 'rgb(30, 30, 180)'
+      }
+    }, {
+      type: 'bar',
+      name: 'Female',
+      x: ageValue,
+      y: femaleValue,
+      marker: {
+        color: 'rgb(210, 80, 30)'
+      }
+    }];
+
+    const ukCensusBarLayout = {
+      title: 'UK Census Bar Chart by Age and Sex',
+      barMode: 'grouped',
+      paperColor: "#f5f5f5",
+      plotColor: "#f5f5f5",
+      xAxis: {
+        title: 'Age Ranges',
+      },
+      yAxis: {
+        title: 'Male and Females'
+      }
+    }
+
+    const ukCensusPie = [{
+      type: 'pie',
+      values: maleValue,
+      labels: ageValue,
+      name: 'Men',
+      domain: {
+        x: [0.15, 0.48]
+      },
+      hoverInfo: 'label+percent+name',
+      textPosition: 'outside',
+      marker: {
+        colors: ['rgb(0, 255, 0)', 'rgb(255, 0, 0)', 'rgb(0, 0, 255)', 'rgb(255, 255, 0)', 'rgb(255, 0, 255)',
+          'rgb(0, 255, 255)', 'rgb(100, 0, 0)', 'rgb(0, 0, 100)', 'rgb(0, 100, 0)']
+      }
+    },
+      {
+        type: 'pie',
+        values: femaleValue,
+        labels: ageValue,
+        name: 'Women',
+        domain: {
+          x: [0.49, 0.82]
+        },
+        hoverInfo: 'label+percent+name',
+        textPosition: 'outside',
+        marker: {
+          colors: ['rgb(0, 255, 0)', 'rgb(255, 0, 0)', 'rgb(0, 0, 255)', 'rgb(255, 255, 0)', 'rgb(255, 0, 255)',
+            'rgb(0, 255, 255)', 'rgb(100, 0, 0)', 'rgb(0, 0, 100)', 'rgb(0, 100, 0)']
+        }
+      }];
+
+    const ukCensusPieTotal = [
+      {
+        type: 'pie',
+        values: sexTotalValues,
+        labels: sexValue,
+        name: 'Men vs Women',
+        domain: {
+          x: [0.34, 0.67]
+        },
+        hoverInfo: 'label+percent+name',
+        textPosition: 'outside',
+        marker: {
+          colors: ['rgb(0, 255, 0)', 'rgb(255, 0, 0)', 'rgb(0, 0, 255)', 'rgb(255, 255, 0)', 'rgb(255, 0, 255)',
+            'rgb(0, 255, 255)', 'rgb(100, 0, 0)', 'rgb(0, 0, 100)', 'rgb(0, 100, 0)']
+        }
+      }];
+
+    const ukCensusPieLayout = {
+      title: 'Age Breakdown for Each Sex',
+      titleFont: { size: 26 },
+      paperColor: "#f5f5f5",
+      plotColor: "#f5f5f5",
+      annotations: [
+        {
+          text: 'Men',
+          showArrow: false,
+          x: 0.30,
+          y: 1,
+          font: { size: 16 }
+        },{
+          text: 'Women',
+          showArrow: false,
+          x: 0.65,
+          y: 1,
+          font: { size: 16 }
+        }
+      ]
+    };
+
+    const ukCensusPieTotalLayout = {
+      title: 'Total Census Breakdown by Sex',
+      titleFont: { size: 26 },
+      paperColor: "#f5f5f5",
+      plotColor: "#f5f5f5",
+      annotations: [
+        {
+          text: 'Men vs Women',
+          showArrow: true,
+          x: 0.5,
+          y: 1,
+          font: { size: 16 }
+        }
+      ]
+    };
+
+    const ukCensusTablePlot = document.getElementById('ukCensusTablePlot');
+    Plotly.plot(ukCensusTablePlot, ukCensusTable, ukCensusTableLayout);
+
+    const ukCensusBarPlot = document.getElementById('ukCensusBarPlot');
+    Plotly.plot(ukCensusBarPlot, ukCensusBar, ukCensusBarLayout);
+
+    const ukCensusPiePlot = document.getElementById('ukCensusPiePlot');
+    Plotly.plot(ukCensusPiePlot, ukCensusPie, ukCensusPieLayout);
+
+    const ukCensusPieTotalPlot = document.getElementById('ukCensusPieTotalPlot');
+    Plotly.plot(ukCensusPieTotalPlot, ukCensusPieTotal, ukCensusPieTotalLayout);
+  });
+</script>
+
+</body>
+</html>
