@@ -20,9 +20,30 @@
 <h1 class="ui center aligned header">1854 London Cholera Outbreak</h1>
 
 <div id="ukCensusTablePlot"></div>
+<p align="center" style="font-size: large">
+  This table shows the amount of inhabitants in London during the year 1851 categorized by age range and sex.
+</p>
+<br>
+
 <div id="ukCensusBarPlot"></div>
+<p align="center" style="font-size: large">
+  This pie chart shows the amount of inhabitants in London during the year 1851 categorized by age range and sex,
+  with the amount of inhabitants being the x-axis, the age ranges being the y-axis and each different sex corresponding
+  to a different color.
+</p>
+<br>
+
 <div id="ukCensusPiePlot"></div>
+<p align="center" style="font-size: large">
+  This table shows the amount of inhabitants in London during the year 1851 categorized by age range and sex.
+</p>
+<br>
+
 <div id="ukCensusPieTotalPlot"></div>
+<p align="center" style="font-size: large">
+  This table shows the amount of inhabitants in London during the year 1851 categorized by age range and sex.
+</p>
+<br>
 
 <script type="text/javascript">
   Plotly.d3.csv('./UKcensus1851.csv', (data) => {
@@ -32,7 +53,7 @@
     const maleValue = [];
     const femaleValue = [];
     const sexTotalValues = [];
-    const sexValue = ['Female', 'Male'];
+    const sexValue = ['Male', 'Female'];
     let maleValueTotal = 0;
     let femaleValueTotal = 0;
 
@@ -64,14 +85,14 @@
         align: 'center',
         line: { width: 1, color: 'black' },
         fill: { color: 'black' },
-        font: { family: 'Arial', size: 12, color: 'white' }
+        font: { size: 12, color: 'white' }
       },
       cells: {
         values: cellValues,
         align: ['center', 'right', 'right'],
         line: { color: 'black', width: 1 },
         fill: { color: 'grey' },
-        font: { family: 'Arial', size: 11, color: ['white'] }
+        font: { size: 11, color: ['white'] }
       }
     }];
 
@@ -86,7 +107,7 @@
       x: ageValue,
       y: maleValue,
       marker: {
-        color: '#3769ff'
+        color: '#91aaff'
       }
     }, {
       type: 'bar',
@@ -94,7 +115,7 @@
       x: ageValue,
       y: femaleValue,
       marker: {
-        color: '#ff8e37'
+        color: '#ffbc8a'
       }
     }];
 
@@ -122,7 +143,9 @@
       hoverInfo: 'label+percent+name',
       textPosition: 'outside',
       marker: {
-        colors: ['']
+        colors: ['rgb(238,133,133)', 'rgb(163,219,166)', 'rgb(192,164,217)', 'rgb(182,218,248)',
+          'rgb(105,129,105)', 'rgb(181,142,143)', 'rgb(169,175,226)', 'rgb(252,239,178)',
+          'rgb(212,167,212)']
       }
     },
       {
@@ -136,8 +159,9 @@
         hoverInfo: 'label+percent+name',
         textPosition: 'outside',
         marker: {
-          colors: ['rgb(0, 255, 0)', 'rgb(255, 0, 0)', 'rgb(0, 0, 255)', 'rgb(255, 255, 0)', 'rgb(255, 0, 255)',
-            'rgb(0, 255, 255)', 'rgb(100, 0, 0)', 'rgb(0, 0, 100)', 'rgb(0, 100, 0)']
+          colors: ['rgb(238,133,133)', 'rgb(163,219,166)', 'rgb(192,164,217)', 'rgb(182,218,248)',
+            'rgb(105,129,105)', 'rgb(181,142,143)', 'rgb(169,175,226)', 'rgb(252,239,178)',
+            'rgb(212,167,212)']
         }
       }];
 
@@ -153,7 +177,7 @@
         hoverInfo: 'label+percent+name',
         textPosition: 'outside',
         marker: {
-          colors: ['#ff8e37', '#3769ff']
+          colors: ['#91aaff', '#ffbc8a']
         }
       }];
 

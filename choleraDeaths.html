@@ -20,7 +20,21 @@
 <h1 class="ui center aligned header">1854 London Cholera Outbreak</h1>
 
 <div id="choleraDeathTablePlot"></div>
+<p align="center" style="font-size: large">
+  This table shows the amount of new cholera attacks and deaths and the total amount of cholera attacks and deaths
+  on the specific date shown.
+</p>
+<br>
+
 <div id="choleraDeathLinePlot"></div>
+<p align="center" style="font-size: large">
+  This line chart shows the amount of new cholera attacks and deaths and the total amount of cholera attacks and deaths <br>
+  for each specific date, with the dates being on the x-axis, the amount of cholera attacks or deaths being on the <br>
+  y-axis and the amount of cholera attacks and deaths per day and the total amount of cholera attacks and deaths <br>
+  corresponding to different colored lines on the chart.
+</p>
+<br>
+<br>
 
 <script type="text/javascript">
   Plotly.d3.tsv('./choleraDeaths.tsv', (data) => {
@@ -54,14 +68,14 @@
         align: 'center',
         line: { width: 1, color: 'black' },
         fill: { color: 'black' },
-        font: { family: 'Arial', size: 12, color: 'white' }
+        font: { size: 12, color: 'white' }
       },
       cells: {
         values: cellValues,
         align: ['center', 'right', 'right', 'right', 'right'],
         line: { color: 'black', width: 1 },
         fill: { color: 'grey' },
-        font: { family: 'Arial', size: 11, color: ['white'] }
+        font: { size: 11, color: ['white'] }
       }
     }];
 
